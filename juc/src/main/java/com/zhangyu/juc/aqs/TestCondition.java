@@ -1,4 +1,4 @@
-package com.zhangyu.esdemo.aqs;
+package com.zhangyu.juc.aqs;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
