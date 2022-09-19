@@ -150,7 +150,62 @@ public class JiQiTest {
         double c = 3.3213;
         double a = 1.2331;
         double b = 2.3423;
-        System.out.println(b -a  >c - a);
+        System.out.println(b - a > c - a);
+    }
+
+    @Test
+    void test6() {
+        int n = 4;
+        int k = 6;
+        int lcut = k / 2;
+        int wcut = k - lcut;
+
+        float l = (float) n / (1 + lcut);
+        float w = (float) n / (1 + wcut);
+
+        System.out.println(String.format("%.2f", w * l));
+    }
+
+    @Test
+    void test7() {
+        int n = 2;
+
+
+        for (int i = 0; i < n; i++) {
+            int[][] a = new int[][]{{0, 0}, {0, 0}};
+            int[][] b = new int[][]{{0, 0}, {0, 0}};
+            Scanner scanner = new Scanner(System.in);
+            for (int j = 0; j < 2; j++) {
+                String stra = scanner.nextLine();
+                a[j % 2][0] = Integer.parseInt(stra.split(" ")[0]);
+                a[j % 2][1] = Integer.parseInt(stra.split(" ")[1]);
+                String strb = scanner.nextLine();
+                b[j % 2][0] = Integer.parseInt(strb.split(" ")[0]);
+                b[j % 2][1] = Integer.parseInt(strb.split(" ")[1]);
+            }
+            scanner.close();
+            System.out.println(a);
+            System.out.println(b);
+
+
+        }
+    }
+
+    @Test
+    void test8() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+
+        Optional<Integer> first = list
+                .stream()
+                .filter(integer -> integer > 2)
+                .findFirst();
+        assert first.isPresent();
+        System.out.println(first.get());
+
     }
 
 
