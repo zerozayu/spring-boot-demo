@@ -14,6 +14,8 @@
     <!-- module子模块 -->
     <modules>
         <module>es-demo</module>
+        <module>juc</module>
+        <module>zookeeper-test</module>
     </modules>
 
     <!-- 定义属性值 -->
