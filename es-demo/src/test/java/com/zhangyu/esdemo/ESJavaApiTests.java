@@ -17,7 +17,6 @@ import com.zhangyu.esdemo.domain.Poet;
 import lombok.SneakyThrows;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,10 +54,10 @@ public class ESJavaApiTests {
     /**
      * 关闭连接
      */
-    @AfterEach
-    void after() {
-        client.shutdown();
-    }
+    // @AfterEach
+    // void after() {
+    //     client.shutdown();
+    // }
 
     /**
      * 建立索引
@@ -594,7 +593,7 @@ public class ESJavaApiTests {
     }
 
     /**
-     * 高亮现实
+     * 高亮显示
      */
     @Test
     void highlightSearch() throws IOException {
@@ -608,6 +607,22 @@ public class ESJavaApiTests {
                                 .preTags("<span color='red'>")
                                 .postTags("</span>")
                                 .fields("remarks", highlightFieldBuilder -> highlightFieldBuilder))
+                , Map.class);
+        System.out.println(search);
+    }
+
+    @Test
+    void highlightSearch1() throws IOException {
+        SearchResponse<Map> search = client.search(searchRequestBuilder -> searchRequestBuilder
+                        .index("idx")
+                        .query(queryBuilder -> queryBuilder
+                                .match(matchQueryBuilder -> matchQueryBuilder
+                                        .field("content").query("苹果"))
+                        )
+                        .highlight(highlightBuilder -> highlightBuilder
+                                .preTags("<span color='red'>")
+                                .postTags("</span>")
+                                .fields("content", highlightFieldBuilder -> highlightFieldBuilder))
                 , Map.class);
         System.out.println(search);
     }
