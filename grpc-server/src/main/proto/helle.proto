@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.zhangyu.grpc.hello.proto";
+option java_multiple_files = false;
+option java_outer_classname = "HelloProto";
+
+package hello;
+
+service HelloService {
+  rpc sayHello(HelloRequest) returns (HelloResponse);
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string result = 1;
+}
