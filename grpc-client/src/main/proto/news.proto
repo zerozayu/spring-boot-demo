@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+// 选项配置
+// 生成 java 类所在的包
+option java_package = "com.zhangyu.grpc.news.proto";
+// 外层类名
+option java_outer_classname = "NewsProto";
+// 是否生成多个类
+option java_multiple_files = false;
+
+// 定义包名(逻辑包名)??
+package news;
+
+service NewsService {
+  rpc list(NewsRequest) returns (NewsResponse);
+}
+
+message NewsRequest {
+  string date = 1;
+}
+
+message NewsResponse {
+  repeated News news = 1;
+}
+
+message News {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+  int64 createTime = 4;
+}

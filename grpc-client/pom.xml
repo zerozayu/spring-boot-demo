@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zhangyu</groupId>
+        <artifactId>spring-boot-demo</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
+    <artifactId>grpc-client</artifactId>
+    <packaging>jar</packaging>
+
+    <name>grpc-client</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
+        <protoc.version>3.21.5</protoc.version>
+        <protobuf.version>1.51.0</protobuf.version>
+        <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-all</artifactId>
+            <version>${protobuf.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <extensions>
+            <!-- 为了识别不同的操作系统，这样插件可以根据不同的平台加载不同protoc编译器文件 -->
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.5.0.Final</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>${protobuf-maven-plugin.version}</version>
+                <configuration>
+                    <pluginId>grpc-java</pluginId>
+                    <!-- proto文件放置的目录 -->
+                    <!-- <protoSourceRoot>${basedir}/src/main/proto</protoSourceRoot> -->
+                    <!-- 生成文件的目录, 可以让其在源码目录生成 -->
+                    <!-- <outputDirectory>${project.basedir}/src/main/java</outputDirectory>-->
+                    <!-- 生成文件前是否把目标目录清空，这个最好设置为false，以免误删项目文件 -->
+                    <!-- <clearOutputDirectory>false</clearOutputDirectory>-->
+
+                    <!-- 寻找本机 protoc 执行命令,需配置环境变量 -->
+                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}
+                    </protocArtifact>
+                    <!-- 生成 grpc 的通信类 -->
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${protobuf.version}:exe:${os.detected.classifier}
+                    </pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!-- 生成消息代码 -->
+                            <goal>compile</goal>
+                            <!-- 生成 grpc 的通信文件 -->
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
