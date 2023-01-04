@@ -20,15 +20,20 @@ public class GRPCClient {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext()
                 .build();
-        NewsServiceGrpc.NewsServiceBlockingStub blockingStub = NewsServiceGrpc.newBlockingStub(channel);
-        NewsProto.NewsRequest newsRequest = NewsProto.NewsRequest.newBuilder().setDate("20230104").build();
+        try {
 
-        NewsProto.NewsResponse response = blockingStub.list(newsRequest);
+            NewsServiceGrpc.NewsServiceBlockingStub blockingStub = NewsServiceGrpc.newBlockingStub(channel);
+            NewsProto.NewsRequest newsRequest = NewsProto.NewsRequest.newBuilder().setDate("20230104").build();
 
-        List<NewsProto.News> newsList = response.getNewsList();
-        for (NewsProto.News news : newsList) {
-            System.out.println(news.getTitle() + ":" + news.getContent());
-            System.out.println(news.getCreateTime());
+            NewsProto.NewsResponse response = blockingStub.list(newsRequest);
+
+            List<NewsProto.News> newsList = response.getNewsList();
+            for (NewsProto.News news : newsList) {
+                System.out.println(news.getTitle() + ":" + news.getContent());
+                System.out.println(news.getCreateTime());
+            }
+        } finally {
+            channel.shutdown();
         }
 
 
