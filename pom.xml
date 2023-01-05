@@ -18,6 +18,8 @@
         <module>zookeeper-test</module>
         <module>grpc-server</module>
         <module>grpc-client</module>
+        <module>grpc-server-spriongboot</module>
+        <module>grpc-client-springboot</module>
     </modules>
 
     <!-- 定义属性值 -->

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: grpc-client-springboot
+
+server:
+  port: 8081
+grpc:
+  client:
+    # ???????,??@GrpcClient("grpc-server")????,?????????
+    grpc-server:
+      address: 'static://127.0.0.1:9090'
+      negotiation-type: plaintext
