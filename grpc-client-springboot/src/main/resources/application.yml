@@ -6,7 +6,9 @@ server:
   port: 8081
 grpc:
   client:
-    # ???????,??@GrpcClient("grpc-server")????,?????????
+    # 自定义名称,结合@GrpcClient("grpc-server")使用,得到存根bean
     grpc-server:
+      # static 是使用静态地址
       address: 'static://127.0.0.1:9090'
+      # 文本传输
       negotiation-type: plaintext

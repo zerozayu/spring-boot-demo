@@ -9,7 +9,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
  * @author zhangyu
  * @date 2023/1/5 09:38
  */
-@GrpcService()
+@GrpcService
 public class NewService extends NewsServiceGrpc.NewsServiceImplBase {
     @Override
     public void list(NewsProto.NewsRequest request, StreamObserver<NewsProto.NewsResponse> responseObserver) {
