@@ -19,9 +19,9 @@ public class ReentrantLockTest {
     private final static ReentrantLock ROOM = new ReentrantLock();
 
     // 等烟的休息室
-    private static Condition waitCigarette = ROOM.newCondition();
+    private final static Condition waitCigarette = ROOM.newCondition();
     // 等外卖的休息室
-    private static Condition waitTakeout = ROOM.newCondition();
+    private final static Condition waitTakeout = ROOM.newCondition();
 
     public static void main(String[] args) throws InterruptedException {
         new Thread(() -> {
