@@ -1,4 +1,4 @@
-package com.zhangyu.juc.basics;
+package com.zhangyu.juc.pattern;
 
 import lombok.extern.slf4j.Slf4j;
 

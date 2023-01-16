@@ -1,4 +1,4 @@
-package com.zhangyu.juc.basics;
+package com.zhangyu.juc.pattern;
 
 import com.zhangyu.juc.utils.DownloadUtils;
 import lombok.Data;
