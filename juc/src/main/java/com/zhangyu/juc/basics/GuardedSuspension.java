@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 保护性暂停模式
+ * 保护性暂停模式(同步模式)
  * <br>
  * <img src="../../../../../resources/static/保护性暂停.png" />
  *
