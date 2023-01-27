@@ -1,17 +1,17 @@
-package com.zhangyu.juc.pattern;
+package com.zhangyu.juc.pattern.AlternateExec;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 /**
- * 同步模式-交替执行
- * abcabcabc
+ * 同步模式-交替执行 abcabcabc
+ * 使用 wait/notifyAll 实现
  *
  * @author zhangyu
  * @date 2023/1/16 17:06
  */
 @Slf4j(topic = "AlternateExec")
-public class AlternateExec {
+public class AlternateExec1 {
 
     /**
      * wait/notify
