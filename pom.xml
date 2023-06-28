@@ -20,6 +20,7 @@
         <module>grpc-client</module>
         <module>grpc-server-spriongboot</module>
         <module>grpc-client-springboot</module>
+        <module>springboot-outside-config</module>
     </modules>
 
     <!-- 定义属性值 -->
