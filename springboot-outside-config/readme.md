@@ -5,6 +5,7 @@
 1. 命令行参数
 
         java -jar spring-boot-02-config-02.0.0.1-SNAPSHOT.jar --server.port=8087
+        java -jar spring-boot-02-config-02.0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 
 2. 来自java:comp/env的NDI属性
 3. Java系统属性(System.getProperties() )
@@ -120,3 +121,17 @@ mq:
 此时读取的就是prod的配置，prod包含proddb,prodmq，此时可以读取proddb,prodmq下的配置
 
 也可以同时激活三个配置spring.profiles.active: prod,proddb,prodmq
+
+### 1.4.3 使用Java中的`@Profile`注解
+
+`@Profile`注解只能配合`@Configuration`和`@Component`使用
+
+```java
+@Configuration
+@Profile("prod")
+public class ProductionConfiguration {
+
+    // ...
+
+}
+```
