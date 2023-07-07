@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: outside-config-prod
+
+
+author:
+  name: gaishun
+  age: 25
+  desc: '  这是一段 描述  '

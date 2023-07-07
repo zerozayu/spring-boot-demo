@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: outside-config-dev
+
+author:
+  name: zhangyu
+  age: 25
+  desc: '  这是一段 描述  '
