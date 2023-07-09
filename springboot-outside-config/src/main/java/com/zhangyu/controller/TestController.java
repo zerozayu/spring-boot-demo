@@ -1,9 +1,8 @@
 package com.zhangyu.controller;
 
 import com.alibaba.fastjson2.JSON;
+import com.zhangyu.config.AuthorConfig;
 import com.zhangyu.domain.Author;
-import com.zhangyu.domain.AuthorConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,11 @@ public class TestController {
 
     private final Author weijialin;
 
-    public TestController(@Qualifier("weijialin") Author weijialin) {
+    private final AuthorConfig authorConfig;
+
+    public TestController(@Qualifier("weijialin") Author weijialin, AuthorConfig authorConfig) {
         this.weijialin = weijialin;
+        this.authorConfig = authorConfig;
     }
 
     @GetMapping("/hello")
@@ -37,5 +39,10 @@ public class TestController {
     @GetMapping("/author")
     public String weijialin(){
         return JSON.toJSONString(weijialin);
+    }
+
+    @GetMapping("/author_config")
+    public String authorConfig(){
+        return JSON.toJSONString(authorConfig);
     }
 }

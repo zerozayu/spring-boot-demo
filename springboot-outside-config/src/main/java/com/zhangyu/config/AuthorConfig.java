@@ -1,10 +1,10 @@
-package com.zhangyu.domain;
+package com.zhangyu.config;
 
+import com.zhangyu.domain.Author;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Profile;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ConfigurationProperties("author")
 @Profile("prod")
 @Configuration
+@ConfigurationProperties("author")
 public class AuthorConfig {
     private String name;
     private String age;
