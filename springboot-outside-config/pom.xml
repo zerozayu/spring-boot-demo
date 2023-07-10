@@ -28,5 +28,12 @@
             <artifactId>fastjson2</artifactId>
             <version>2.0.16</version>
         </dependency>
+
+        <!--其中spring-boot-configuration-processor这个jar，可以让我们在编写application.properties/yml会有智能提示-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>2.7.10</version>
+        </dependency>
     </dependencies>
 </project>
