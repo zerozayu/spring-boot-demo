@@ -303,3 +303,26 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
 # 启用自定义环境处理类
 org.springframework.boot.env.EnvironmentPostProcessor=com.zhangyu.config.MyEnvironmentPostProcessor
 ```
+
+## 1.6 SpringBoot使用通配符加载配置文件
+
+还可以使用通配符加载自定义配置文件，貌似是spring的实现方式
+
+```java
+
+@Configuration
+public class PropertyConfig {
+ 
+   @Bean
+   public PropertySourcesPlaceholderConfigurer getPropertySourcesPlaceholderConfigurer() throws IOException {
+      PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+      configurer.setLocations(new PathMatchingResourcePatternResolver().getResources("classpath:properties/*.properties"));
+      return configurer;
+   }
+}
+```
+> `classpath*:` 和 `classpath:` 的区别是
+> 
+> `classpath:`: 只会到你的class路径中查找找文件。
+> 
+> `classpath*:`: 不仅包含class路径，还包括jar文件中（class路径）进行查找。
