@@ -1,5 +1,5 @@
 # 加载顺序
-loading-sequence: 3
+loading-sequence: classpath:./config
 
 server:
   port: 8080
@@ -7,4 +7,6 @@ server:
     context-path: /zhangyu
 spring:
   profiles:
+    # 通过java命令启动springboot应用，可以在启动时再通过-Dspring.profiles.active参数切换配置文件，
+    # active: ${SPRING_PROFILES_ACTIVE:dev}
     active: dev,prod

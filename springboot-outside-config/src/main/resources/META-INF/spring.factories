@@ -1,2 +1,2 @@
 # 启用自定义环境处理类
-org.springframework.boot.env.EnvironmentPostProcessor=com.zhangyu.config.MyEnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=com.zhangyu.config.MyEnvironmentPostProcessor,\

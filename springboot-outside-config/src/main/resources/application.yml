@@ -1,2 +1,2 @@
 # 加载顺序
-loading-sequence: 4
+loading-sequence: classpath:./

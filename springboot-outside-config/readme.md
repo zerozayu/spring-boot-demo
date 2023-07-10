@@ -29,11 +29,13 @@
 
 ## 1.2 springboot内部加载顺序
 
-1. 配置文件可以放在下面四个地方
+1. 配置文件可以放在下面四个地方(优先级依次)
     - `file:./config`：项目根目录中config下
     - `file:./`：项目根目录下
     - `classpath:./config`：项目的resources目录中config下
     - `classpath:./`：项目的resources目录下
+
+> 当使用的项目是module级别的时候，必须使用级别是project级别才能扫描到 `file:` 下面的文件
 
 2. 同目录下`.properties`的优先级比`.yml`高，
 3. 如果同一个配置属性，多个文件都配置了，默认使用第一次读取到的，后续不覆盖
@@ -59,7 +61,7 @@
 ### 1.4.1 使用`.properties`文件
 
 假如有开发、测试、生产三个不同的环境，需要定义三个不同环境下的配置
-    
+
     application.properties
     applicaiton-dev.properties
     applictiong-test.properties
@@ -78,6 +80,7 @@ spring.profiles.include=prod
 ### 1.4.2 使用`.yml`文件
 
 因为在yml文件中，`---`表示文档分隔符，每个文档独立，所以此时只需要一个`.yml`文件
+
 ```yaml
 spring:
   profiles:
@@ -127,6 +130,7 @@ mq:
 `@Profile`注解只能配合`@Configuration`和`@Component`使用
 
 ```java
+
 @Configuration
 @Profile("prod")
 public class ProductionConfiguration {
@@ -142,10 +146,11 @@ public class ProductionConfiguration {
 
 @PropertiesSource 可以用来加载指定的配置文件,默认只能加载 `*.properties` 文件, 不能加载 `yml` 等文件
 
->相关属性
+> 相关属性
 
 - value: 指明加载配置文件的路径
-- ignoreResourceNotFound：指定的配置文件不存在是否报错，默认是false。当设置为 true 时，若该文件不存在，程序不会报错。实际项目开发中，最好设置 ignoreResourceNotFound 为 false。
+- ignoreResourceNotFound：指定的配置文件不存在是否报错，默认是false。当设置为 true 时，若该文件不存在，程序不会报错。实际项目开发中，最好设置
+  ignoreResourceNotFound 为 false。
 - encoding：指定读取属性文件所使用的编码，我们通常使用的是UTF-8。
 
 > 示例
@@ -187,31 +192,32 @@ import java.io.FileNotFoundException;
 import java.util.Properties;
 
 public class YamlPropertiesSourceFactory implements PropertySourceFactory {
-   @Override
-   public PropertySource<?> createPropertySource(String sourceName, EncodedResource resource) throws IOException {
-      Properties propertiesFromYaml = loadYaml(resource);
-      if (StringUtils.isBlank(sourceName)) {
-         sourceName = resource.getResource().getFilename();
-      }
-      return new PropertiesPropertySource(sourceName, propertiesFromYaml);
-   }
+    @Override
+    public PropertySource<?> createPropertySource(String sourceName, EncodedResource resource) throws IOException {
+        Properties propertiesFromYaml = loadYaml(resource);
+        if (StringUtils.isBlank(sourceName)) {
+            sourceName = resource.getResource().getFilename();
+        }
+        return new PropertiesPropertySource(sourceName, propertiesFromYaml);
+    }
 
-   private Properties loadYaml(EncodedResource resource) throws FileNotFoundException {
-      try {
-         YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
-         factory.setResources(resource.getResource());
-         factory.afterPropertiesSet();
-         return factory.getObject();
-      } catch (IllegalStateException e){
-          Throwable cause = e.getCause();
-          if (cause instanceof FileNotFoundException){
-              throw (FileNotFoundException) cause;
-          }
-          throw e;
-      }
-   }
+    private Properties loadYaml(EncodedResource resource) throws FileNotFoundException {
+        try {
+            YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
+            factory.setResources(resource.getResource());
+            factory.afterPropertiesSet();
+            return factory.getObject();
+        } catch (IllegalStateException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof FileNotFoundException) {
+                throw (FileNotFoundException) cause;
+            }
+            throw e;
+        }
+    }
 }
 ```
+
 ```java
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -227,7 +233,7 @@ import org.springframework.context.annotation.PropertySource;
 @Builder
 @Configuration
 // 指明上面写好的工厂类
-@PropertySource(factory = YamlPropertySourceFactory.class, value = {"classpath:user.yml" },
+@PropertySource(factory = YamlPropertySourceFactory.class, value = {"classpath:user.yml"},
         ignoreResourceNotFound = false, encoding = "UTF-8")
 @ConfigurationProperties(prefix = "author")// 这个注解的作用是指明配置文件中需要注入信息的前缀
 public class Author {
@@ -242,32 +248,58 @@ public class Author {
 > 实现流程
 
 1. 实现EnvironmentPostProcessor接口,重写postProcessEnvironment方法
+
 ```java
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.PropertiesPropertySource;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
-
-@Slf4j
-public class CustomEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
    @Override
-   public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication
-           application) {
-      Properties properties = new Properties();
+   public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+      String[] profiles = {"config/test.properties", "config/custom.properties", "config/blog.yml"};
+
+      for (String profile : profiles) {
+         Resource resource = new ClassPathResource(profile);
+         environment.getPropertySources().addLast(loadProfiles(resource));
+      }
+   }
+
+   private PropertySource<?> loadProfiles(Resource resource) {
+      if (!resource.exists()) {
+         throw new IllegalArgumentException("资源不存在");
+      }
+      if (resource.getFilename().endsWith("yml")) {
+         return loadYaml(resource);
+      } else {
+         return loadProperty(resource);
+      }
+   }
+
+   private PropertySource loadProperty(Resource resource) {
       try {
-         properties.load(new InputStreamReader(CustomEnvironmentPostProcessor.class.getClassLoader().getResourceAsStream("custom.properties"), StandardCharsets.UTF_8));
-         PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("custom", properties);
-         environment.getPropertySources().addLast(propertiesPropertySource);
-      } catch (IOException e) {
-          log.error(e.getMessage(), e);
+         Properties properties = new Properties();
+         properties.load(resource.getInputStream());
+         return new PropertiesPropertySource(resource.getFilename(), properties);
+      } catch (Exception e) {
+         throw new IllegalStateException("加载Property配置文件失败", e);
+      }
+   }
+
+   private PropertySource loadYaml(Resource resource) {
+      try {
+         YamlPropertiesFactoryBean factoryBean = new YamlPropertiesFactoryBean();
+         factoryBean.setResources(resource);
+
+         Properties properties = factoryBean.getObject();
+         return new PropertiesPropertySource(resource.getFilename(), properties);
+      } catch (Exception e) {
+         throw new IllegalStateException("加载Yaml配置文件失败", e);
       }
    }
 }
 ```
 
 2. 在META-INF下创建spring.factories
+
+```factiries
+# spring.factories 文件内容如下：
+# 启用自定义环境处理类
+org.springframework.boot.env.EnvironmentPostProcessor=com.zhangyu.config.MyEnvironmentPostProcessor
+```

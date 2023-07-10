@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
-    @Value("${spring.application.name:}")
-    private String applicationName;
-
     private final Author weijialin;
 
     private final AuthorConfig authorConfig;
@@ -31,18 +28,31 @@ public class TestController {
         this.authorConfig = authorConfig;
     }
 
-    @GetMapping("/hello")
-    public String sayHello(){
-        return "hello," + applicationName;
-    }
+    @Value("${spring.application.name:}")
+    private String applicationName;
 
-    @GetMapping("/author")
-    public String weijialin(){
-        return JSON.toJSONString(weijialin);
+    @Value("${loading-sequence:无数据}")
+    private String sequence;
+
+    @GetMapping("/sequence")
+    public String sequence() {
+        return JSON.toJSONString(sequence);
     }
 
     @GetMapping("/author_config")
-    public String authorConfig(){
+    public String authorConfig() {
         return JSON.toJSONString(authorConfig);
     }
+
+    @GetMapping("/author")
+    public String weijialin() {
+        return JSON.toJSONString(weijialin);
+    }
+
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "hello," + applicationName;
+    }
+
+
 }
