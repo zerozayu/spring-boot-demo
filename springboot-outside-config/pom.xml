@@ -35,5 +35,12 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <version>2.7.10</version>
         </dependency>
+
+        <!--自定义日志starter-->
+        <dependency>
+            <groupId>com.zhangyu</groupId>
+            <artifactId>log-spring-boot-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
