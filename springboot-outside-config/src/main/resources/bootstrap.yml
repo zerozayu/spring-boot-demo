@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: com.zhangyu.config
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
+      config:
+        namespace: public
+        group: DEFAULT_GROUP
+        file-extension: yml
+        # 优先级更高
+        # extension-configs:
+        shared-configs:
+          - data-id: com.zhangyu.config-dev.yml
+            refresh: true

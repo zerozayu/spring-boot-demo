@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.10</version>
+            <version>2.6.13</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
@@ -41,6 +41,24 @@
             <groupId>com.zhangyu</groupId>
             <artifactId>log-spring-boot-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- nacos 配置中心 springboot-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.boot</groupId>-->
+        <!--            <artifactId>nacos-config-spring-boot-starter</artifactId>-->
+        <!--            <version>0.2.12</version>-->
+        <!--        </dependency>-->
+
+        <!--nacos配置中心依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--bootstrap.yml文件使用所需依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
     </dependencies>
 </project>
