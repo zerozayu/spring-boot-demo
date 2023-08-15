@@ -3,7 +3,6 @@ package com.zhangyu.controller;
 import com.alibaba.fastjson2.JSON;
 import com.zhangyu.config.AuthorConfig;
 import com.zhangyu.domain.Author;
-import com.zhangyu.log.annotion.MyLog;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +44,7 @@ public class TestController {
      *
      * @return
      */
-    @MyLog
+    // @MyLog
     @GetMapping("/annotation/mylog")
     public String testAnnotation() {
         return "这是一条发生在" + LocalDateTime.now() + "的日志";
