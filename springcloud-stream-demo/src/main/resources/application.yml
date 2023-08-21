@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: spring-cloud-stream-demo
+  cloud:
+    stream:
+      # 如果只有一个binder的话,就不需要设置
+#      default-binder: rabbit
+      binders:
+        rabbit:
+          type: rabbit
+          environment: # 配置 rabbitmq 连接环境
+            spring:
+              rabbitmq:
+                host: 127.0.0.1
+                port: 5672
+                username: zhangyu
+                password: zhangyu
+                virtual-host: /
+      bindings:
+        output:
+          destination: processor # exchange名称, 交换模式默认是 topic
+          content-type: application/json
+          binder: rabbit
+          group: ${spring.application.name}
+        input:
+          destination: processor
+          content-type: application/json
+          binder: rabbit
+          group: ${spring.application.name}
+          consumer:
+            concurrency: 2 # 初始/最少/空闲时 消费者数量,默认1
